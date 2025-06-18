@@ -14,6 +14,9 @@ websocket_connection = None
 # SDK Load Status
 sdk_load_status = False
 
+# LiDAR UDP Port
+lidar_udp_port = 5000
+
 
 def run_lidar_sdk():
     """
@@ -26,21 +29,36 @@ def run_lidar_sdk():
     is_64bits = sys.maxsize > 2**32
     is_windows = platform.system() == "Windows"
 
-    current_dir = os.path.dirname(os.path.abspath(__file__))
+    # Distinguish between PyInstaller execution and normal execution
+    if getattr(sys, 'frozen', False):
+        # When running from PyInstaller built exe
+        current_dir = sys._MEIPASS
+    else:
+        # When running as normal Python script
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+    
     if is_windows:
         if is_64bits:
-            dll_path = os.path.join(current_dir, "../libs/libkanavi_lidar_sdk-vc143-x64-md-0.1.0.dll")
+            dll_path = os.path.join(current_dir, "libs/libkanavi_lidar_sdk-vc143-x64-md-0.1.0.dll")
         else:
-            dll_path = os.path.join(current_dir, "../libs/libkanavi_lidar_sdk-vc143-x86-md-0.1.0.dll")
+            dll_path = os.path.join(current_dir, "libs/libkanavi_lidar_sdk-vc143-x86-md-0.1.0.dll")
     else:  # Ubuntu
         if is_64bits:
-            dll_path = os.path.join(current_dir, "../libs/libkanavi_lidar_sdk-gcc-x64-0.1.0.so")
+            dll_path = os.path.join(current_dir, "libs/libkanavi_lidar_sdk-gcc-x64-0.1.0.so")
         else:
-            dll_path = os.path.join(current_dir, "../libs/libkanavi_lidar_sdk-gcc-x86-0.1.0.so")
+            dll_path = os.path.join(current_dir, "libs/libkanavi_lidar_sdk-gcc-x86-0.1.0.so")
 
     try:
         dll_path = os.path.abspath(dll_path)
-        log_path = os.path.join(current_dir, "logs")
+        
+        # Modify log path for PyInstaller environment as well
+        if getattr(sys, 'frozen', False):
+            log_path = os.path.join(os.path.dirname(sys.executable), "logs")
+        else:
+            log_path = os.path.join(current_dir, "logs")
+        
+        # Create log directory if it doesn't exist
+        os.makedirs(log_path, exist_ok=True)
 
         lib = ctypes.CDLL(dll_path)
         sdk_load_status = True
@@ -86,7 +104,7 @@ async def send_message(websocket, message):
         
 async def recv_message(websocket):
     """
-    Send message through existing WebSocket connection.
+    Receive message through existing WebSocket connection.
     """
     try:
         response = await asyncio.wait_for(
@@ -109,7 +127,7 @@ def get_device_list_message():
         "data": {
             "action": "get_device_list",
             "params": {
-                "port": 5000
+                "port": lidar_udp_port
             }
         }
     }
@@ -193,7 +211,7 @@ async def interactive_mode():
     """
     base_uri = "ws://127.0.0.1"
     
-    # 5555 - 5655 connection try
+    # Try connecting to ports 5555 - 5655
     print("Scanning for WebSocket server...")
     websocket, connected_uri = await find_available_port(base_uri, 5555, 5655)
     
@@ -207,7 +225,7 @@ async def interactive_mode():
     print("  1 - Send get_device_list request")
     print("  2 - Subscribe LiDAR Scan Data")
     print("  3 - Display LiDAR Scan Data")
-    print("  4 - Stop Subscibe LiDAR Scan Data")
+    print("  4 - Stop Subscribe LiDAR Scan Data")
     print("  5 - Send reset_config request")
     print("  q - Quit")
     print("-" * 40)
@@ -221,7 +239,7 @@ async def interactive_mode():
             
             if user_input == "q":
                 print("Exiting...")
-                break
+                os._exit(1)
             elif user_input == "1":
                 message = get_device_list_message()
                 await send_message(websocket, message)
@@ -274,7 +292,12 @@ def main():
     """
     Main function to start SDK and run interactive mode.
     """
+    global lidar_udp_port
+
     print("Starting LiDAR SDK...")
+
+    # Input LiDAR UDP Port
+    lidar_udp_port = int(input("Enter LiDAR UDP Port: "))
     
     # Start SDK in a separate thread
     sdk_thread = threading.Thread(target=run_lidar_sdk, daemon=True)
