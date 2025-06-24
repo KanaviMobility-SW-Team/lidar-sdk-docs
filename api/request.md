@@ -6,6 +6,7 @@
 | - | - | - |
 | `request_id` | `string`| 요청 식별자 (client에서 지정) |
 | `device_id` | [`Device ID`](#device-id) \| `null` | 대상 장치 ID (선택사항) |
+| `use_multicast_addr` | `bool` \| `null` | UDP Data 송신 시 목적지 IP(LiDAR IP)를 224.0.0.5 로 설정할 것인지에 대한 옵션 |
 | `data` | [`Request Data`](#request-data) | 요청 데이터 (action, params) |
 
 ---
@@ -34,50 +35,50 @@
 
 |Actions|Params|설명|
 |-|-|-|
-|[`get_device_list`](#get-device-list)|`port`|`port`로 연결 된 LiDAR 목록
-|[`subscribe_devices`](#subscribe-devices)|`List<device_id>`|스캔 좌표 데이터 수신을 위한 설정
-|[`reset_config`](#reset-config)|`null`|설정 초기화 (네트워크, ID등 초기화되지 않는 정보도 있음)
-|[`get_basic_info`](#get-basic-info)|`null`|기본 설정 값 조회
-|[`set_h_fov`](#set-horizontal-field-of-view)|`start_angle`, `end_angle`|수평 각도 설정
+|[`get_device_list`](#get-device-list-responseist)|`port`|`port`로 연결 된 LiDAR 목록
+|[`subscribe_devices`](#subscribe-devices-response-notify)|`List<device_id>`|스캔 좌표 데이터 수신을 위한 설정
+|[`reset_config`](#reset-config-response)|`null`|설정 초기화 (네트워크, ID등 초기화되지 않는 정보도 있음)
+|[`get_basic_info`](#get-basic-info-response)|`null`|기본 설정 값 조회
+|[`set_h_fov`](#set-horizontal-field-of-view-response)|`start_angle`, `end_angle`|수평 각도 설정
 |[`set_output_channel`](#set-output-channel)|`channel`|채널 활성화 설정
-|[`set_user_area`](#set-user-area)|`List<area>`|사용자 영역 설정
-|[`set_object_size`](#set-object-size)|`size`|감지 물체 크기 설정
-|[`set_detection_hold_time`](#set-detection-hold-time)|`time`|감지 영역에 머문 물체를 감지로 판단하는 시간 설정
-|[`get_version_info`](#get-version-info)|`null`|버전 정보 조회
-|[`set_distance_range`](#set-distance-range)|`start_distance`, `end_distance`|스캔 거리 설정
-|[`set_pulse_active_state`](#set-pulse-active-state)|`active`|감지 활성화 핀 상태 설정
-|[`set_pulse_pin_mode`](#set-pulse-pin-mode)|`mode`, `channel`|펄스 핀 모드 설정
-|[`set_self_check_active_state`](#set-self-check-active-state)|`active`|자체 점검 핀 상태 설정
-|[`set_teaching_mode`](#set-teaching-mode)|`enable`, `range`, `margin`|티칭 모드 설정
-|[`get_teaching_mode`](#get-teaching-mode)|`null`|티칭 모드 조회
-|[`get_teaching_area`](#get-teaching-area)|`null`|티칭 영역 조회
-|[`set_guide_beam`](#set-guide-beam)|`enable`|가이드 빔 설정
-|[`set_id`](#set-id)|`id`|ID 값 설정
-|[`set_motor_speed`](#set-motor-speed)|`speed`|모터 속도 설정
-|[`get_motor_speed`](#get-motor-speed)|`null`|모터 속도 조회
-|[`set_warning_area`](#set-warning-area)|`danger`, `warning`, `caution`|경고 영역 설정
-|[`get_warning_area`](#get-warning-area)|`null`|경고 영역 조회
-|[`set_fog_filter`](#set-fog-filter)|`level`, `disable_detection`|안개 필터 설정
-|[`get_fog_filter`](#get-fog-filter)|`null`|안개 필터 조회
-|[`set_radius_filter`](#set-radius-filter)|`level`|오감지 필터 설정
-|[`get_radius_filter`](#get-radius-filter)|`null`|오감지 필터 조회
-|[`set_radius_filter_max_distance`](#set-radius-filter-max-distance)|`distance`|오감지 필터 최대 거리 설정
-|[`get_radius_filter_max_distance`](#get-radius-filter-max-distance)|`null`|오감지 필터 최대 거리 조회
-|[`set_radius_filter_min_distance`](#set-radius-filter-min-distance)|`distance`|오감지 필터 최소 거리 설정
-|[`get_radius_filter_min_distance`](#get-radius-filter-min-distance)|`null`|오감지 필터 최소 거리 조회
-|[`set_window_contamination_detection_mode`](#set-window-contamination-detection-mode)|`mode`|스크린 오염 감지 설정
-|[`get_window_contamination_detection_mode`](#get-window-contamination-detection-mode)|`null`|스크린 오염 감지 조회
-|[`set_network_source_info`](#set-network-source-info)|`ip`, `mac`, `subnet`, `gateway`, `port`|LiDAR 출발지 네트워크 값 설정
-|[`get_network_source_info`](#get-network-source-info)|`null`|LiDAR 출발지 네트워크 값 조회
-|[`set_ethernet_mode`](#set-ethernet-mode)|`mode`|이더넷 모드 설정
-|[`set_network_destination_ip`](#set-network-destination-ip)|`ip`|LiDAR 목적지 IP 설정
-|[`get_network_destination_ip`](#get-network-destination-ip)|`null`|LiDAR 목적지 IP 조회
-|[`set_network_info`](#set-network-info)|`src`, `dst`, `mode`|LiDAR 네트워크 정보 설정
-|[`get_network_info`](#get-network-info)|`null`|LiDAR 네트워크 정보 조회
+|[`set_user_area`](#set-user-area-response)|`List<area>`|사용자 영역 설정
+|[`set_object_size`](#set-object-size-response)|`size`|감지 물체 크기 설정
+|[`set_detection_hold_time`](#set-detection-hold-time-response)|`time`|감지 영역에 머문 물체를 감지로 판단하는 시간 설정
+|[`get_version_info`](#get-version-info-response)|`null`|버전 정보 조회
+|[`set_distance_range`](#set-distance-range-response)|`start_distance`, `end_distance`|스캔 거리 설정
+|[`set_pulse_active_state`](#set-pulse-active-state-response)|`active`|감지 활성화 핀 상태 설정
+|[`set_pulse_pin_mode`](#set-pulse-pin-mode-response)|`mode`, `channel`|펄스 핀 모드 설정
+|[`set_self_check_active_state`](#set-self-check-active-state-response)|`active`|자체 점검 핀 상태 설정
+|[`set_teaching_mode`](#set-teaching-mode-response)|`enable`, `range`, `margin`|티칭 모드 설정
+|[`get_teaching_mode`](#get-teaching-mode-response)|`null`|티칭 모드 조회
+|[`get_teaching_area`](#get-teaching-area-response)|`null`|티칭 영역 조회
+|[`set_guide_beam`](#set-guide-beam-response)|`enable`|가이드 빔 설정
+|[`set_id`](#set-id-response)|`id`|ID 값 설정
+|[`set_motor_speed`](#set-motor-speed-response)|`speed`|모터 속도 설정
+|[`get_motor_speed`](#get-motor-speed-response)|`null`|모터 속도 조회
+|[`set_warning_area`](#set-warning-area-response)|`danger`, `warning`, `caution`|경고 영역 설정
+|[`get_warning_area`](#get-warning-area-response)|`null`|경고 영역 조회
+|[`set_fog_filter`](#set-fog-filter-response)|`level`, `disable_detection`|안개 필터 설정
+|[`get_fog_filter`](#get-fog-filter-response)|`null`|안개 필터 조회
+|[`set_radius_filter`](#set-radius-filter-response)|`level`|오감지 필터 설정
+|[`get_radius_filter`](#get-radius-filter-response)|`null`|오감지 필터 조회
+|[`set_radius_filter_max_distance`](#set-radius-filter-max-distance-response)|`distance`|오감지 필터 최대 거리 설정
+|[`get_radius_filter_max_distance`](#get-radius-filter-max-distance-response)|`null`|오감지 필터 최대 거리 조회
+|[`set_radius_filter_min_distance`](#set-radius-filter-min-distance-response)|`distance`|오감지 필터 최소 거리 설정
+|[`get_radius_filter_min_distance`](#get-radius-filter-min-distance-response)|`null`|오감지 필터 최소 거리 조회
+|[`set_window_contamination_detection_mode`](#set-window-contamination-detection-mode-response)|`mode`|스크린 오염 감지 설정
+|[`get_window_contamination_detection_mode`](#get-window-contamination-detection-mode-response)|`null`|스크린 오염 감지 조회
+|[`set_network_source_info`](#set-network-source-info-response)|`ip`, `mac`, `subnet`, `gateway`, `port`|LiDAR 출발지 네트워크 값 설정
+|[`get_network_source_info`](#get-network-source-info-response)|`null`|LiDAR 출발지 네트워크 값 조회
+|[`set_ethernet_mode`](#set-ethernet-mode-response)|`mode`|이더넷 모드 설정
+|[`set_network_destination_ip`](#set-network-destination-ip-response)|`ip`|LiDAR 목적지 IP 설정
+|[`get_network_destination_ip`](#get-network-destination-ip-response)|`null`|LiDAR 목적지 IP 조회
+|[`set_network_info`](#set-network-info-response)|`src`, `dst`, `mode`|LiDAR 네트워크 정보 설정
+|[`get_network_info`](#get-network-info-response)|`null`|LiDAR 네트워크 정보 조회
 
 ---
 
-### Get Device List
+### Get Device List ([`Response`](response.md#get-device-list-reqeust))
 
 `port`로 소켓을 열고 들어오는 LiDAR UDP Packet 확인하여 그 목록을 반환
 
@@ -85,6 +86,7 @@
 {
   "type": "request",
   "request_id": "1",
+  "use_multicast_addr" : null,
   "device_id": null,
   "data": {
     "action": "get_device_list",
@@ -97,7 +99,7 @@
 
 ---
 
-### Subscribe Devices
+### Subscribe Devices ([`Response`](response.md#default-response), [`Notify`](notify.md#scan-result))
 
 LiDAR 스캔 좌표 데이터를 실시간으로 구독, 여러개의 LiDAR 데이터를 받아 오고 싶을 경우 배열에 여러개의 Device ID 를 포함 시키면 가능
 
@@ -105,6 +107,7 @@ LiDAR 스캔 좌표 데이터를 실시간으로 구독, 여러개의 LiDAR 데�
 {
   "type": "request",
   "request_id": "1",
+  "use_multicast_addr" : null,
   "device_id": null,
   "data": {
     "action": "subscribe_devices",
@@ -126,6 +129,7 @@ LiDAR 스캔 좌표 데이터를 실시간으로 구독, 여러개의 LiDAR 데�
 {
   "type": "request",
   "request_id": "1",
+  "use_multicast_addr" : null,
   "device_id": null,
   "data": {
     "action": "subscribe_devices",
@@ -136,7 +140,7 @@ LiDAR 스캔 좌표 데이터를 실시간으로 구독, 여러개의 LiDAR 데�
 
 ---
 
-### Reset Config
+### Reset Config ([`Response`](response.md#default-response))
 
 LiDAR 의 모든 설정을 초기화. 단, Network Info, ID, Motor Speed 값은 초기화되지 않음
 
@@ -144,6 +148,7 @@ LiDAR 의 모든 설정을 초기화. 단, Network Info, ID, Motor Speed 값은 
 {
   "type": "request",
   "request_id": "1",
+  "use_multicast_addr" : null,
   "device_id": {
     "ip":3232267208,
     "port":5000,
@@ -159,7 +164,7 @@ LiDAR 의 모든 설정을 초기화. 단, Network Info, ID, Motor Speed 값은 
 
 ---
 
-### Get Basic Info
+### Get Basic Info ([`Response`](response.md#get-basic-info-reqeust))
 
 LiDAR 의 기본 설정값을 조회. 대부분의 설정 값이 조회 되나, 안개 필터, 오감지 필터 등은 별도의 조회 명령 필요
 
@@ -167,6 +172,7 @@ LiDAR 의 기본 설정값을 조회. 대부분의 설정 값이 조회 되나, 
 {
   "type": "request",
   "request_id": "1",
+  "use_multicast_addr" : null,
   "device_id": {
     "ip":3232267208,
     "port":5000,
@@ -182,7 +188,7 @@ LiDAR 의 기본 설정값을 조회. 대부분의 설정 값이 조회 되나, 
 
 ---
 
-### Set Horizontal Field Of View
+### Set Horizontal Field Of View ([`Response`](response.md#default-response))
 
 LiDAR 수평 시야각 설정
 
@@ -198,6 +204,7 @@ LiDAR 수평 시야각 설정
 {
   "type": "request",
   "request_id": "1",
+  "use_multicast_addr" : null,
   "device_id": {
     "ip":3232267208,
     "port":5000,
@@ -217,7 +224,7 @@ LiDAR 수평 시야각 설정
 
 ---
 
-### Set Output Channel
+### Set Output Channel ([`Response`](response.md#default-response))
 
 출력 채널을 별도로 설정 가능
 
@@ -233,6 +240,7 @@ LiDAR 수평 시야각 설정
 {
   "type": "request",
   "request_id": "1",
+  "use_multicast_addr" : null,
   "device_id": {
     "ip":3232267208,
     "port":5000,
@@ -255,7 +263,7 @@ LiDAR 수평 시야각 설정
 
 ---
 
-### Set User Area
+### Set User Area ([`Response`](response.md#default-response))
 
 사용자 기반(좌표) 감지 영역 설정. 좌표는 최소 3개 이상으로 영역이 구성 될 수 있는 조건 성립 필요
 
@@ -267,6 +275,7 @@ LiDAR 수평 시야각 설정
 {
   "type": "request",
   "request_id": "1",
+  "use_multicast_addr" : null,
   "device_id": {
     "ip":3232267208,
     "port":5000,
@@ -291,7 +300,7 @@ LiDAR 수평 시야각 설정
 
 ---
 
-### Set Object Size
+### Set Object Size ([`Response`](response.md#default-response))
 
 감지 영역 안의 감지할 물체의 최소 크기 설정
 
@@ -301,6 +310,7 @@ LiDAR 수평 시야각 설정
 {
   "type": "request",
   "request_id": "1",
+  "use_multicast_addr" : null,
   "device_id": {
     "ip":3232267208,
     "port":5000,
@@ -318,7 +328,7 @@ LiDAR 수평 시야각 설정
 
 ---
 
-### Set Detection Hold Time
+### Set Detection Hold Time ([`Response`](response.md#default-response))
 
 물체가 일정 시간 이상 감지 영역에 머물 때 감지로 판단하는 설정
 
@@ -328,6 +338,7 @@ LiDAR 수평 시야각 설정
 {
   "type": "request",
   "request_id": "1",
+  "use_multicast_addr" : null,
   "device_id": {
     "ip":3232267208,
     "port":5000,
@@ -345,7 +356,7 @@ LiDAR 수평 시야각 설정
 
 ---
 
-### Get Version Info
+### Get Version Info ([`Response`](response.md#get-version-info-reqeust))
 
 LiDAR Firmware, Hardware 버전과 사용처에 대한 정보를 조회
 
@@ -353,6 +364,7 @@ LiDAR Firmware, Hardware 버전과 사용처에 대한 정보를 조회
 {
   "type": "request",
   "request_id": "1",
+  "use_multicast_addr" : null,
   "device_id": {
     "ip":3232267208,
     "port":5000,
@@ -368,7 +380,7 @@ LiDAR Firmware, Hardware 버전과 사용처에 대한 정보를 조회
 
 ---
 
-### Set Distance Range
+### Set Distance Range ([`Response`](response.md#default-response))
 
 LiDAR Scan 최소, 최대 거리를 지정
 
@@ -386,6 +398,7 @@ LiDAR Scan 최소, 최대 거리를 지정
 {
   "type": "request",
   "request_id": "1",
+  "use_multicast_addr" : null,
   "device_id": {
     "ip":3232267208,
     "port":5000,
@@ -405,7 +418,7 @@ LiDAR Scan 최소, 최대 거리를 지정
 
 ---
 
-### Set Pulse Active State
+### Set Pulse Active State ([`Response`](response.md#default-response))
 
 감지가 활성화 상태의 출력 핀 상태 설정
 
@@ -418,6 +431,7 @@ LiDAR Scan 최소, 최대 거리를 지정
 {
   "type": "request",
   "request_id": "1",
+  "use_multicast_addr" : null,
   "device_id": {
     "ip":3232267208,
     "port":5000,
@@ -435,7 +449,7 @@ LiDAR Scan 최소, 최대 거리를 지정
 
 ---
 
-### Set Pulse Pin Mode
+### Set Pulse Pin Mode ([`Response`](response.md#default-response))
 
 출력 핀을 설정값을 커스텀 하게 사용할 수 있는 설정 값
 
@@ -472,6 +486,7 @@ LiDAR Scan 최소, 최대 거리를 지정
 {
   "type": "request",
   "request_id": "1",
+  "use_multicast_addr" : null,
   "device_id": {
     "ip":3232267208,
     "port":5000,
@@ -490,7 +505,7 @@ LiDAR Scan 최소, 최대 거리를 지정
 
 ---
 
-### Set Self Check Active State
+### Set Self Check Active State ([`Response`](response.md#default-response))
 
 LiDAR 는 자기 점검 기능을 가지고 있으며, 제품에 문제가 있을 경우 Self Check Pin 신호를 활성화 시킴
 
@@ -505,6 +520,7 @@ LiDAR 는 자기 점검 기능을 가지고 있으며, 제품에 문제가 있�
 {
   "type": "request",
   "request_id": "1",
+  "use_multicast_addr" : null,
   "device_id": {
     "ip":3232267208,
     "port":5000,
@@ -522,7 +538,7 @@ LiDAR 는 자기 점검 기능을 가지고 있으며, 제품에 문제가 있�
 
 ---
 
-### Set Teaching Mode
+### Set Teaching Mode ([`Response`](response.md#default-response))
 
 현재 표시되고 있는 스캔 좌표 기반으로 자동 영역 설정 진행
 
@@ -536,6 +552,7 @@ margin: 자동 영역과 스캔 좌표 사이의 간격
 {
   "type": "request",
   "request_id": "1",
+  "use_multicast_addr" : null,
   "device_id": {
     "ip":3232267208,
     "port":5000,
@@ -555,7 +572,7 @@ margin: 자동 영역과 스캔 좌표 사이의 간격
 
 ---
 
-### Get Teaching Mode
+### Get Teaching Mode ([`Response`](response.md#get-teaching-mode-reqeust))
 
 마지막으로 적용되었던 Teaching Mode 의 parameter 값 조회
 
@@ -563,6 +580,7 @@ margin: 자동 영역과 스캔 좌표 사이의 간격
 {
   "type": "request",
   "request_id": "1",
+  "use_multicast_addr" : null,
   "device_id": {
     "ip":3232267208,
     "port":5000,
@@ -578,7 +596,7 @@ margin: 자동 영역과 스캔 좌표 사이의 간격
 
 ---
 
-### Get Teaching Area
+### Get Teaching Area ([`Response`](response.md#get-teaching-area-reqeust))
 
 현재 적용되어 있는 Teaching 영역의 좌표 조회
 
@@ -586,6 +604,7 @@ margin: 자동 영역과 스캔 좌표 사이의 간격
 {
   "type": "request",
   "request_id": "1",
+  "use_multicast_addr" : null,
   "device_id": {
     "ip":3232267208,
     "port":5000,
@@ -601,7 +620,7 @@ margin: 자동 영역과 스캔 좌표 사이의 간격
 
 ---
 
-### Set Guide Beam
+### Set Guide Beam ([`Response`](response.md#default-response))
 
 LiDAR 설치 등에 필요한 육안으로 볼 수 있는 빔 설정
 
@@ -611,6 +630,7 @@ LiDAR 설치 등에 필요한 육안으로 볼 수 있는 빔 설정
 {
   "type": "request",
   "request_id": "1",
+  "use_multicast_addr" : null,
   "device_id": {
     "ip":3232267208,
     "port":5000,
@@ -628,7 +648,7 @@ LiDAR 설치 등에 필요한 육안으로 볼 수 있는 빔 설정
 
 ---
 
-### Set ID
+### Set ID ([`Response`](response.md#default-response))
 
 LiDAR 식별자 중 하나인 ID 값 변경
 
@@ -640,6 +660,7 @@ ID 는 식별자인 Device ID 값이므로, 변경 후 재접속 필요
 {
   "type": "request",
   "request_id": "1",
+  "use_multicast_addr" : null,
   "device_id": {
     "ip":3232267208,
     "port":5000,
@@ -657,7 +678,7 @@ ID 는 식별자인 Device ID 값이므로, 변경 후 재접속 필요
 
 ---
 
-### Set Motor Speed
+### Set Motor Speed ([`Response`](response.md#default-response))
 
 LiDAR의 모터 스피드 설정, R270 만 지원
 
@@ -665,6 +686,7 @@ LiDAR의 모터 스피드 설정, R270 만 지원
 {
   "type": "request",
   "request_id": "1",
+  "use_multicast_addr" : null,
   "device_id": {
     "ip":3232267208,
     "port":5000,
@@ -682,7 +704,7 @@ LiDAR의 모터 스피드 설정, R270 만 지원
 
 ---
 
-### Get Motor Speed
+### Get Motor Speed ([`Response`](response.md#get-motor-speed-reqeust))
 
 LiDAR 의 모터 스피드 조회, R270 만 지원
 
@@ -690,6 +712,7 @@ LiDAR 의 모터 스피드 조회, R270 만 지원
 {
   "type": "request",
   "request_id": "1",
+  "use_multicast_addr" : null,
   "device_id": {
     "ip":3232267208,
     "port":5000,
@@ -705,7 +728,7 @@ LiDAR 의 모터 스피드 조회, R270 만 지원
 
 ---
 
-### Set Warning Area
+### Set Warning Area ([`Response`](response.md#default-response))
 
 위험, 경고, 주의 3단계의 영역 설정, R270 만 지원
 
@@ -719,6 +742,7 @@ LiDAR 의 모터 스피드 조회, R270 만 지원
 {
   "type": "request",
   "request_id": "1",
+  "use_multicast_addr" : null,
   "device_id": {
     "ip":3232267208,
     "port":5000,
@@ -739,7 +763,7 @@ LiDAR 의 모터 스피드 조회, R270 만 지원
 
 ---
 
-### Get Warning Area
+### Get Warning Area ([`Response`](response.md#get-warning-area-reqeust))
 
 현재 설정 된 경고 영역의 값 조회, R270 만 지원
 
@@ -747,6 +771,7 @@ LiDAR 의 모터 스피드 조회, R270 만 지원
 {
   "type": "request",
   "request_id": "1",
+  "use_multicast_addr" : null,
   "device_id": {
     "ip":3232267208,
     "port":5000,
@@ -762,7 +787,7 @@ LiDAR 의 모터 스피드 조회, R270 만 지원
 
 ---
 
-### Set Fog Filter
+### Set Fog Filter ([`Response`](response.md#default-response))
 
 안개 필터 설정, R4 만 지원
 
@@ -772,6 +797,7 @@ LiDAR 의 모터 스피드 조회, R270 만 지원
 {
   "type": "request",
   "request_id": "1",
+  "use_multicast_addr" : null,
   "device_id": {
     "ip":3232267208,
     "port":5000,
@@ -790,7 +816,7 @@ LiDAR 의 모터 스피드 조회, R270 만 지원
 
 ---
 
-### Get Fog Filter
+### Get Fog Filter ([`Response`](response.md#get-fog-filter-reqeust))
 
 현재 설정 된 Fog Filter 값 조회, R4 만 지원
 
@@ -798,6 +824,7 @@ LiDAR 의 모터 스피드 조회, R270 만 지원
 {
   "type": "request",
   "request_id": "1",
+  "use_multicast_addr" : null,
   "device_id": {
     "ip":3232267208,
     "port":5000,
@@ -813,7 +840,7 @@ LiDAR 의 모터 스피드 조회, R270 만 지원
 
 ---
 
-### Set Radius Filter
+### Set Radius Filter ([`Response`](response.md#default-response))
 
 오감지 필터 설정, R4 만 지원
 
@@ -821,6 +848,7 @@ LiDAR 의 모터 스피드 조회, R270 만 지원
 {
   "type": "request",
   "request_id": "1",
+  "use_multicast_addr" : null,
   "device_id": {
     "ip":3232267208,
     "port":5000,
@@ -838,7 +866,7 @@ LiDAR 의 모터 스피드 조회, R270 만 지원
 
 ---
 
-### Get Radius Filter
+### Get Radius Filter ([`Response`](response.md#get-radius-filter-reqeust))
 
 설정 된 오감지 필터 값 조회, R4 만 지원
 
@@ -846,6 +874,7 @@ LiDAR 의 모터 스피드 조회, R270 만 지원
 {
   "type": "request",
   "request_id": "1",
+  "use_multicast_addr" : null,
   "device_id": {
     "ip":3232267208,
     "port":5000,
@@ -859,7 +888,7 @@ LiDAR 의 모터 스피드 조회, R270 만 지원
 }
 ```
 
-### Set Radius Filter Max Distance
+### Set Radius Filter Max Distance ([`Response`](response.md#default-response))
 
 오감지 필터를 적용 할 최대 거리 설정, R4 만 지원
 
@@ -867,6 +896,7 @@ LiDAR 의 모터 스피드 조회, R270 만 지원
 {
   "type": "request",
   "request_id": "1",
+  "use_multicast_addr" : null,
   "device_id": {
     "ip":3232267208,
     "port":5000,
@@ -884,7 +914,7 @@ LiDAR 의 모터 스피드 조회, R270 만 지원
 
 ---
 
-### Get Radius Filter Max Distance
+### Get Radius Filter Max Distance ([`Response`](response.md#get-radius-filter-max-distance-reqeust))
 
 현재 적용된 오감지 필터 최대 거리 조회, R4 만 지원
 
@@ -892,6 +922,7 @@ LiDAR 의 모터 스피드 조회, R270 만 지원
 {
   "type": "request",
   "request_id": "1",
+  "use_multicast_addr" : null,
   "device_id": {
     "ip":3232267208,
     "port":5000,
@@ -907,7 +938,7 @@ LiDAR 의 모터 스피드 조회, R270 만 지원
 
 ---
 
-### Set Radius Filter Min Distance
+### Set Radius Filter Min Distance ([`Response`](response.md#default-response))
 
 오감지 필터를 적용 할 최소 거리 설정, R4 만 지원
 
@@ -915,6 +946,7 @@ LiDAR 의 모터 스피드 조회, R270 만 지원
 {
   "type": "request",
   "request_id": "1",
+  "use_multicast_addr" : null,
   "device_id": {
     "ip":3232267208,
     "port":5000,
@@ -932,7 +964,7 @@ LiDAR 의 모터 스피드 조회, R270 만 지원
 
 ---
 
-### Get Radius Filter Min Distance
+### Get Radius Filter Min Distance ([`Response`](response.md#get-radius-filter-min-distance-reqeust))
 
 현재 적용된 오감지 필터 최소 거리 조회, R4 만 지원
 
@@ -940,6 +972,7 @@ LiDAR 의 모터 스피드 조회, R270 만 지원
 {
   "type": "request",
   "request_id": "1",
+  "use_multicast_addr" : null,
   "device_id": {
     "ip":3232267208,
     "port":5000,
@@ -955,7 +988,7 @@ LiDAR 의 모터 스피드 조회, R270 만 지원
 
 ---
 
-### Set Window Contamination Detection Mode
+### Set Window Contamination Detection Mode ([`Response`](response.md#default-response))
 
 LiDAR 화면 오염 감지 모드 설정, R4 만 지원
 
@@ -965,6 +998,7 @@ LiDAR 화면 오염 감지 모드 설정, R4 만 지원
 {
   "type": "request",
   "request_id": "1",
+  "use_multicast_addr" : null,
   "device_id": {
     "ip":3232267208,
     "port":5000,
@@ -982,7 +1016,7 @@ LiDAR 화면 오염 감지 모드 설정, R4 만 지원
 
 ---
 
-### Get Window Contamination Detection Mode
+### Get Window Contamination Detection Mode ([`Response`](response.md#get-window-contamination-detection-mode-reqeust))
 
 현재 적용된 화면 오염 감지모드 조회, R4 만 지원
 
@@ -990,6 +1024,7 @@ LiDAR 화면 오염 감지 모드 설정, R4 만 지원
 {
   "type": "request",
   "request_id": "1",
+  "use_multicast_addr" : null,
   "device_id": {
     "ip":3232267208,
     "port":5000,
@@ -1005,7 +1040,7 @@ LiDAR 화면 오염 감지 모드 설정, R4 만 지원
 
 ---
 
-### Set Network Source Info
+### Set Network Source Info ([`Response`](response.md#default-response))
 
 LiDAR 의 출발지 네트워크 정보 설정
 
@@ -1013,6 +1048,7 @@ LiDAR 의 출발지 네트워크 정보 설정
 {
   "type": "request",
   "request_id": "1",
+  "use_multicast_addr" : null,
   "device_id": {
     "ip":3232267208,
     "port":5000,
@@ -1034,7 +1070,7 @@ LiDAR 의 출발지 네트워크 정보 설정
 
 ---
 
-### Get Network Source Info
+### Get Network Source Info ([`Response`](response.md#get-network-source-info-reqeust))
 
 LiDAR 의 출발지 네트워크 정보 조회
 
@@ -1042,6 +1078,7 @@ LiDAR 의 출발지 네트워크 정보 조회
 {
   "type": "request",
   "request_id": "1",
+  "use_multicast_addr" : null,
   "device_id": {
     "ip":3232267208,
     "port":5000,
@@ -1057,11 +1094,9 @@ LiDAR 의 출발지 네트워크 정보 조회
 
 ---
 
-### Set Ethernet Mode
+### Set Ethernet Mode ([`Response`](response.md#default-response))
 
 LiDAR 의 네트워크 모드 설정
-
-LiDAR 네트워크 모드의 경우 Get을 제공 하지 않음
 
 |mode|설명|
 |-|-|
@@ -1072,6 +1107,7 @@ LiDAR 네트워크 모드의 경우 Get을 제공 하지 않음
 {
   "type": "request",
   "request_id": "1",
+  "use_multicast_addr" : null,
   "device_id": {
     "ip":3232267208,
     "port":5000,
@@ -1089,7 +1125,7 @@ LiDAR 네트워크 모드의 경우 Get을 제공 하지 않음
 
 ---
 
-### Set Network Destination IP
+### Set Network Destination IP ([`Response`](response.md#default-response))
 
 LiDAR 의 네트워크 목적지 IP 설정
 
@@ -1097,6 +1133,7 @@ LiDAR 의 네트워크 목적지 IP 설정
 {
   "type": "request",
   "request_id": "1",
+  "use_multicast_addr" : null,
   "device_id": {
     "ip":3232267208,
     "port":5000,
@@ -1114,7 +1151,7 @@ LiDAR 의 네트워크 목적지 IP 설정
 
 ---
 
-### Get Network Destination IP
+### Get Network Destination IP ([`Response`](response.md#get-network-destination-ip-reqeust))
 
 LiDAR 의 네트워크 정보 조회
 
@@ -1124,6 +1161,7 @@ ethernet mode 의 경우 정보를 제공하지 않음
 {
   "type": "request",
   "request_id": "1",
+  "use_multicast_addr" : null,
   "device_id": {
     "ip":3232267208,
     "port":5000,
@@ -1139,7 +1177,7 @@ ethernet mode 의 경우 정보를 제공하지 않음
 
 ---
 
-### Set Network Info
+### Set Network Info ([`Response`](response.md#default-response))
 
 LiDAR 의 네트워크 정보 설정
 
@@ -1153,6 +1191,7 @@ LiDAR 의 네트워크 정보 설정
 {
   "type": "request",
   "request_id": "1",
+  "use_multicast_addr" : null,
   "device_id": {
     "ip":3232267208,
     "port":5000,
@@ -1182,16 +1221,15 @@ LiDAR 의 네트워크 정보 설정
 
 ---
 
-### Get Network Info
+### Get Network Info ([`Response`](response.md#get-network-info-reqeust))
 
 LiDAR 의 네트워크 정보 조회
-
-ethernet mode 의 경우 정보를 제공하지 않음
 
 ```json
 {
   "type": "request",
   "request_id": "1",
+  "use_multicast_addr" : null,
   "device_id": {
     "ip":3232267208,
     "port":5000,

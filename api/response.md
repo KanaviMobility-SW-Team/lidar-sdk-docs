@@ -6,7 +6,7 @@
 | - | - | - |
 | `request_id` | `string`| 요청 식별자 (client에서 지정) |
 | `status` | `string` | 응답 상태 |
-| `data` | [`Response Data`](#response-data) \| `null` |응답 데이터 |
+| `data` | [`Response Data`](#response-data) |응답 데이터 |
 
 ---
 
@@ -15,21 +15,21 @@
 | 타입 | 설명 |
 | - | - |
 | [`DefaultResponse`](#default-response) | 기본 응답 |
-| [`GetDeviceList`](#get-device-list) | Device ID 목록 |
-| [`GetBasicInfo`](#get-basic-info) | 기본 설정 값 |
-| [`GetVersionInfo`](#get-version-info) | 버전 정보 |
-| [`GetTeachingMode`](#get-teaching-mode) | 티칭 모드 설정 값 |
-| [`GetTeachingArea`](#get-teaching-area) | 티칭 영역 좌표 |
-| [`GetMotorSpeed`](#get-motor-speed) | 모터 스피드 |
-| [`GetWarningArea`](#get-warning-area) | 경고 영역 |
-| [`GetFogFilter`](#get-fog-filter) | 안개 필터 |
-| [`GetRadiusFilter`](#get-radius-filter) | 오감지 필터 |
-| [`GetRadiusFilterMaxDistance`](#get-radius-filter-max-distance) | 오감지 필터 최대 거리 |
-| [`GetRadiusFilterMinDistance`](#get-radius-filter-min-distance) | 오감지 필터 최소 거리 |
-| [`GetWindowContaminationDetectionMode`](#get-window-contamination-detection-mode) | 스크린 오염 감지 설정 값 |
-| [`GetNetworkSourceInfo`](#get-network-source-info) | 네트워크 출발지 정보 |
-| [`GetNetworkDestinationIp`](#get-network-destination-ip) | 네트워크 목적지 IP |
-| [`GetNetworkInfo`](#get-network-info) | 네트워크 정보 |
+| [`GetDeviceList`](#get-device-list-reqeust) | Device ID 목록 |
+| [`GetBasicInfo`](#get-basic-info-reqeust) | 기본 설정 값 |
+| [`GetVersionInfo`](#get-version-info-reqeust) | 버전 정보 |
+| [`GetTeachingMode`](#get-teaching-mode-reqeust) | 티칭 모드 설정 값 |
+| [`GetTeachingArea`](#get-teaching-area-reqeust) | 티칭 영역 좌표 |
+| [`GetMotorSpeed`](#get-motor-speed-reqeust) | 모터 스피드 |
+| [`GetWarningArea`](#get-warning-area-reqeust) | 경고 영역 |
+| [`GetFogFilter`](#get-fog-filter-reqeust) | 안개 필터 |
+| [`GetRadiusFilter`](#get-radius-filter-reqeust) | 오감지 필터 |
+| [`GetRadiusFilterMaxDistance`](#get-radius-filter-max-distance-reqeust) | 오감지 필터 최대 거리 |
+| [`GetRadiusFilterMinDistance`](#get-radius-filter-min-distance-reqeust) | 오감지 필터 최소 거리 |
+| [`GetWindowContaminationDetectionMode`](#get-window-contamination-detection-mode-reqeust) | 스크린 오염 감지 설정 값 |
+| [`GetNetworkSourceInfo`](#get-network-source-info-reqeust) | 네트워크 출발지 정보 |
+| [`GetNetworkDestinationIp`](#get-network-destination-ip-reqeust) | 네트워크 목적지 IP |
+| [`GetNetworkInfo`](#get-network-info-reqeust) | 네트워크 정보 |
 
 ---
 
@@ -44,13 +44,16 @@ data 에 요청한 request의 [`action`](request.md#actions--params) 이 설정�
   "type": "response",
   "request_id": "100",
   "status": "success",
-  "data": "reset-config" // 요청 한 request 의 action 값
+  "data": {
+    "action": "reset-config", // 요청 한 request 의 action 값
+    "params": null
+  }
 }
 ```
 
 ---
 
-### Get Device List
+### Get Device List ([`Reqeust`](request.md#get-device-list-response))
 
 현재 연결된 LiDAR 기기들의 정보
 
@@ -60,7 +63,8 @@ data 에 요청한 request의 [`action`](request.md#actions--params) 이 설정�
   "request_id": "50",
   "status": "success",
   "data": {
-    "get_device_list": [
+    "action": "get_device_list",
+    "params": [
       {
         "ip": 3232267208,
         "port": 5000,
@@ -74,7 +78,7 @@ data 에 요청한 request의 [`action`](request.md#actions--params) 이 설정�
 
 ---
 
-### Get Basic Info
+### Get Basic Info ([`Reqeust`](request.md#get-basic-info-response))
 
 기본 설정 값 정보
 
@@ -84,7 +88,8 @@ data 에 요청한 request의 [`action`](request.md#actions--params) 이 설정�
   "request_id": "100",
   "status": "success",
   "data": {
-    "get_basic_info": {
+    "action": "get_basic_info",
+    "params": {
       "output_channel": {
         "channel": [
           true,
@@ -156,7 +161,7 @@ data 에 요청한 request의 [`action`](request.md#actions--params) 이 설정�
 
 ---
 
-### Get Version Info
+### Get Version Info ([`Reqeust`](request.md#get-version-info-response))
 
 LiDAR Firmware, Hardware 버전과 사용처에 대한 정보
 
@@ -166,7 +171,8 @@ LiDAR Firmware, Hardware 버전과 사용처에 대한 정보
   "request_id": "100",
   "status": "success",
   "data": {
-    "get_version_info": {
+    "action": "get_version_info",
+    "params": {
       "fw_version": "3.2.0",
       "hw_version": "6.0.0",
       "end_application": "General Purpose"
@@ -177,7 +183,7 @@ LiDAR Firmware, Hardware 버전과 사용처에 대한 정보
 
 ---
 
-### Get Teaching Mode
+### Get Teaching Mode ([`Reqeust`](request.md#get-teaching-mode-response))
 
 마지막으로 적용되었던 Teaching Mode 의 parameter 값
 
@@ -189,7 +195,8 @@ enable 값은 언제나 true로 들어오며, 실제 teaching 적용 여부는 [
   "request_id": "100",
   "status": "success",
   "data": {
-    "get_teaching_mode": {
+    "action": "get_teaching_mode",
+    "params": {
       "enable": true, // not use, allways true
       "range": 10.0, // [m]
       "margin": 10 // [m]
@@ -200,7 +207,7 @@ enable 값은 언제나 true로 들어오며, 실제 teaching 적용 여부는 [
 
 ---
 
-### Get Teaching Area
+### Get Teaching Area ([`Reqeust`](request.md#get-teaching-area-response))
 
 현재 적용되어 있는 Teaching 영역의 좌표
 
@@ -212,7 +219,8 @@ enable 값은 언제나 true로 들어오며, 실제 teaching 적용 여부는 [
   "request_id": "100",
   "status": "success",
   "data": {
-    "get_teaching_area": {
+    "action": "get_teaching_area",
+    "params": {
       "area": [
         [
           {
@@ -314,7 +322,7 @@ enable 값은 언제나 true로 들어오며, 실제 teaching 적용 여부는 [
 
 ---
 
-### Get Motor Speed
+### Get Motor Speed ([`Reqeust`](request.md#get-motor-speed-response))
 
 LiDAR 의 모터 스피드
 
@@ -325,7 +333,8 @@ LiDAR 의 모터 스피드
   "request_id": "100",
   "status": "success",
   "data": {
-    "get_motor_speed": {
+    "action": "get_motor_speed",
+    "params": {
       "speed": 15
     }
   }
@@ -334,7 +343,7 @@ LiDAR 의 모터 스피드
 
 ---
 
-### Get Warning Area
+### Get Warning Area ([`Reqeust`](request.md#get-warning-area-response))
 
 현재 설정 된 경고 영역의 값
 
@@ -344,7 +353,8 @@ LiDAR 의 모터 스피드
   "request_id": "100",
   "status": "success",
   "data": {
-    "get_warning_area": {
+    "action": "get_warning_area",
+    "params": {
       "danger": 0.05,
       "warning": 0.15,
       "caution": 0.3
@@ -355,7 +365,7 @@ LiDAR 의 모터 스피드
 
 ---
 
-### Get Fog Filter
+### Get Fog Filter ([`Reqeust`](request.md#get-fog-filter-response))
 
 현재 설정 된 Fog Filter 값
 
@@ -365,7 +375,8 @@ LiDAR 의 모터 스피드
   "request_id": "100",
   "status": "success",
   "data": {
-    "get_fog_filter": {
+    "action": "get_fog_filter",
+    "params": {
       "level": 5,
       "disable_detection": false
     }
@@ -375,7 +386,7 @@ LiDAR 의 모터 스피드
 
 ---
 
-### Get Radius Filter
+### Get Radius Filter ([`Reqeust`](request.md#get-radius-filter-response))
 
 설정 된 오감지 필터 값
 
@@ -385,7 +396,8 @@ LiDAR 의 모터 스피드
   "request_id": "100",
   "status": "success",
   "data": {
-    "get_radius_filter": {
+    "action": "get_radius_filter",
+    "params": {
       "level": 3
     }
   }
@@ -394,7 +406,7 @@ LiDAR 의 모터 스피드
 
 ---
 
-### Get Radius Filter Max Distance
+### Get Radius Filter Max Distance ([`Reqeust`](request.md#get-radius-filter-max-distance-response))
 
 현재 적용된 오감지 필터 최대 거리
 
@@ -404,7 +416,8 @@ LiDAR 의 모터 스피드
   "request_id": "100",
   "status": "success",
   "data": {
-    "get_radius_filter_max_distance": {
+    "action": "get_radius_filter_max_distance",
+    "params": {
       "distance": 10
     }
   }
@@ -413,7 +426,7 @@ LiDAR 의 모터 스피드
 
 ---
 
-### Get Radius Filter Min Distance
+### Get Radius Filter Min Distance ([`Reqeust`](request.md#get-radius-filter-min-distance-response))
 
 현재 적용된 오감지 필터 최소 거리
 
@@ -423,7 +436,8 @@ LiDAR 의 모터 스피드
   "request_id": "100",
   "status": "success",
   "data": {
-    "get_radius_filter_min_distance": {
+    "action": "get_radius_filter_min_distance",
+    "params": {
       "distance": 0
     }
   }
@@ -432,7 +446,7 @@ LiDAR 의 모터 스피드
 
 ---
 
-### Get Window Contamination Detection Mode
+### Get Window Contamination Detection Mode ([`Reqeust`](request.md#get-window-contamination-detection-mode-response))
 
 현재 적용된 화면 오염 감지모드
 
@@ -442,7 +456,8 @@ LiDAR 의 모터 스피드
   "request_id": "100",
   "status": "success",
   "data": {
-    "get_window_contamination_detection_mode": {
+    "action": "get_window_contamination_detection_mode",
+    "params": {
       "enable": false
     }
   }
@@ -451,7 +466,7 @@ LiDAR 의 모터 스피드
 
 ---
 
-### Get Network Source Info
+### Get Network Source Info ([`Reqeust`](request.md#get-network-source-info-response))
 
 LiDAR 의 출발지 네트워크 정보
 
@@ -461,7 +476,8 @@ LiDAR 의 출발지 네트워크 정보
   "request_id": "100",
   "status": "success",
   "data": {
-    "get_network_source_info": {
+    "action": "get_network_source_info",
+    "params": {
       "ip": [192, 168, 123, 200],
       "mac": [0, 8, 220, 171, 205, 239],
       "subnet": [255, 255, 255, 0],
@@ -474,7 +490,7 @@ LiDAR 의 출발지 네트워크 정보
 
 ---
 
-### Get Network Destination Ip
+### Get Network Destination Ip ([`Reqeust`](request.md#get-network-destination-ip-response))
 
 LiDAR 의 목적지 네트워크 정보
 
@@ -484,7 +500,8 @@ LiDAR 의 목적지 네트워크 정보
   "request_id": "100",
   "status": "success",
   "data": {
-    "get_network_destination_ip": {
+    "action": "get_network_destination_ip",
+    "params": {
       "ip": [192, 168, 123, 100]
     }
   }
@@ -493,11 +510,9 @@ LiDAR 의 목적지 네트워크 정보
 
 ---
 
-### Get Network Info
+### Get Network Info ([`Reqeust`](request.md#get-network-info-response))
 
 LiDAR 의 네트워크 정보
-
-Ethernet Mode 의 경우 값을 제공하지 않음
 
 ```json
 {
@@ -505,7 +520,8 @@ Ethernet Mode 의 경우 값을 제공하지 않음
   "request_id": "100",
   "status": "success",
   "data": {
-    "get_network_info": {
+    "action": "get_network_info",
+    "params": {
       "src": {
         "ip": [192, 168, 123, 200],
         "mac": [ 0, 8, 220, 171, 205, 239],
@@ -517,7 +533,7 @@ Ethernet Mode 의 경우 값을 제공하지 않음
         "ip": [ 192, 168, 123, 100]
       },
       "mode": {
-        "mode": -1
+        "mode": 0
       }
     }
   }

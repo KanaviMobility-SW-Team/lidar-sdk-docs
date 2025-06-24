@@ -18,6 +18,7 @@
 |`101`|[`InvalidRequest`](#invalid-request)|
 |`102`|[`InvalidRequestDeviceIDNotFound`](#invalid-request-device-id-not-found)|
 |`103`|[`Timeout`](#timeout)|
+|`104`|[`NotSupported`](#not-support)|
 
 
 ---
@@ -79,6 +80,21 @@ request 요청이 일정 시간동안 처리되지 않았을 경우 발생
   "request_id": "100",
   "code": 103,
   "message": "Timeout"
+}
+```
+
+---
+
+### Not Support
+
+request 요청이 지원하지 않는 기능일 경우 발생 (R4에서 모터 관련 reqeust, R270에서 Guide Beam Reqeust 등)
+
+```json
+{
+  "type": "error",
+  "request_id": "100",
+  "code": 104,
+  "message": "Not supported"
 }
 ```
 
