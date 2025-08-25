@@ -18,14 +18,13 @@
 |`101`|[`InvalidRequest`](#invalid-request)|
 |`102`|[`InvalidRequestDeviceIDNotFound`](#invalid-request-device-id-not-found)|
 |`103`|[`Timeout`](#timeout)|
-|`104`|[`NotSupported`](#not-support)|
-
+|`104`|[`NotSupported`](#not-supported)|
 
 ---
 
 ### Invalid Data Format
 
-유효하지 않은 json 포맷의 request 시 발생 (JSON parsing 오류)
+유효하지 않은 JSON 포맷의 request 시 발생 (JSON parsing 오류)
 
 ```json
 {
@@ -40,7 +39,7 @@
 
 ### Invalid Request
 
-유효하지 않은 request 시 발생 (action 명칭 등 철자 오류 시 주로 발생)
+유효하지 않은 request 시 발생 (action 철자 오류 등)
 
 ```json
 {
@@ -55,7 +54,7 @@
 
 ### Invalid Request Device ID Not Found
 
-유효하지 않은 Device ID 로부터 request 시 발생
+유효하지 않은 Device ID로 request 시 발생
 
 ```json
 {
@@ -70,8 +69,7 @@
 
 ### Timeout
 
-request 요청이 일정 시간동안 처리되지 않았을 경우 발생
-
+request 요청이 일정 시간동안 처리되지 않았을 경우 발생  
 기본 대기 시간: 1500 ms
 
 ```json
@@ -85,9 +83,9 @@ request 요청이 일정 시간동안 처리되지 않았을 경우 발생
 
 ---
 
-### Not Support
+### Not Supported
 
-request 요청이 지원하지 않는 기능일 경우 발생 (R4에서 모터 관련 reqeust, R270에서 Guide Beam Reqeust 등)
+지원하지 않는 기능 요청 시 발생 (예: R4에서 모터 관련 request 등)
 
 ```json
 {
