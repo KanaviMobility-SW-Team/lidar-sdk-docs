@@ -6,11 +6,11 @@ WebSocket 메시지는 JSON 형식으로 전송하며, `type` 필드로 메시�
 
 ## Websocket Address
 
-기본 포트는 5555를 사용하며, 5555포트가 사용중 일 경우 5655 까지 1씩 포트 번호를 증가 하여 포트 사용 여부 확인 후 실행
+기본 포트는 5555를 사용하며, 5555 포트가 사용 중일 경우 5559까지 1씩 증가하며 사용 가능한 포트를 검색해 실행합니다.
 
 
 ```
-ws://10.10.10.254:5555
+ws://<server-ip>:5555
 ```
 
 ---
@@ -30,7 +30,7 @@ ws://10.10.10.254:5555
 | - | - |
 | [`request`](request.md) | 요청 메시지 |
 | [`response`](response.md) | 응답 메시지 |
-| [`notify`](notify.md) | LiDAR 좌표 메시지 |
+| [`notify`](notify.md) | LiDAR 좌표/감지 메시지 |
 | [`error`](error.md) | 오류 메시지 |
 
 ---
@@ -39,7 +39,7 @@ ws://10.10.10.254:5555
 
 ### Set 요청
 
-모든 Set 요청은 [`default_response`](response.md#default-response) 를 반환
+모든 Set 요청은 [`default_response`](response.md#default-response)를 반환합니다.
 
 |요청|응답|
 |-|-|
@@ -66,15 +66,17 @@ ws://10.10.10.254:5555
 |[`get_network_source_info`](request.md#get-network-source-info)|[`get_network_source_info`](response.md#get-network-source-info)|
 |[`get_network_destination_ip`](request.md#get-network-destination-ip)|[`get_network_destination_ip`](response.md#get-network-destination-ip)|
 |[`get_network_info`](request.md#get-network-info)|[`get_network_info`](response.md#get-network-info)|
+|[`get_cloud_point_filter`](request.md#get-cloud-point-filter)|[`get_cloud_point_filter`](response.md#get-cloud-point-filter)|
 
 ---
 
 ### 실시간 알림
 
-LiDAR 스캔 데이터를 실시간으로 알림
+LiDAR 스캔/감지 데이터를 실시간으로 알림
 
-|요청|응답|
+|트리거|알림|
 |-|-|
-|**자동 통지** (subscribe_devices 설정 후)|[`scan_result`](notify.md#scan-result)|
+|`subscribe_devices` 수행 후 자동 통지|[`scan_result`](notify.md#scan-result)|
+|검출/영역 결과 업데이트 시|[`detection_result`](notify.md#detection-result)|
 
 ---

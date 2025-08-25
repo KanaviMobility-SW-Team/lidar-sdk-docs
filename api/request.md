@@ -75,7 +75,8 @@
 |[`get_network_destination_ip`](#get-network-destination-ip-response)|`null`|LiDAR 목적지 IP 조회
 |[`set_network_info`](#set-network-info-response)|`src`, `dst`, `mode`|LiDAR 네트워크 정보 설정
 |[`get_network_info`](#get-network-info-response)|`null`|LiDAR 네트워크 정보 조회
-
+|`set_cloud_point_filter`|`filter_type`, `history_count`, `min_distance`, `max_distance`, `q?`, `r?`, `threshold?`|포인트 필터 설정|
+|`get_cloud_point_filter`|`null`|포인트 필터 조회|
 ---
 
 ### Get Device List ([`Response`](response.md#get-device-list-reqeust))
@@ -1238,6 +1239,52 @@ LiDAR 의 네트워크 정보 조회
   },
   "data": {
     "action": "get_network_info",
+    "params": null
+  }
+}
+```
+
+---
+
+### Set Cloud Point Filter ([`Response`](response.md#default-response))
+
+LiDAR 포인트 필터 설정
+
+```json
+{
+  "type": "request",
+  "request_id": "200",
+  "use_multicast_addr": null,
+  "device_id": { "ip": 3232267208, "port": 5000, "model": 6, "id": 208 },
+  "data": {
+    "action": "set_cloud_point_filter",
+    "params": {
+      "filter_type": "kalman",        // none | average | kalman | median (소문자)
+      "history_count": 10,
+      "min_distance": 0.2,
+      "max_distance": 20.0,
+      "q": 0.01,                      // kalman 전용(옵션)
+      "r": 0.1,                       // kalman 전용(옵션)
+      "threshold": 3.0                // kalman 전용(옵션)
+    }
+  }
+}
+```
+
+---
+
+### Get Cloud Point Filter ([`Response`](response.md#get-cloud-point-filter))
+
+LiDAR 포인트 필터 설정 조회
+
+```json
+{
+  "type": "request",
+  "request_id": "201",
+  "use_multicast_addr": null,
+  "device_id": { "ip": 3232267208, "port": 5000, "model": 6, "id": 208 },
+  "data": {
+    "action": "get_cloud_point_filter",
     "params": null
   }
 }
