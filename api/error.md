@@ -19,6 +19,8 @@
 |`102`|[`InvalidRequestDeviceIDNotFound`](#invalid-request-device-id-not-found)|
 |`103`|[`Timeout`](#timeout)|
 |`104`|[`NotSupported`](#not-supported)|
+|`105`|[`FirmwareUpdateFailed`](#firmware-update-failed)|
+|`9999`|[`Unknown`](#unknown)|
 
 ---
 
@@ -93,6 +95,36 @@ request 요청이 일정 시간동안 처리되지 않았을 경우 발생
   "request_id": "100",
   "code": 104,
   "message": "Not supported"
+}
+```
+
+---
+
+### Firmware Update Failed
+
+펌웨어 업데이트 과정에서 실패가 발생했을 때 반환
+
+```json
+{
+  "type": "error",
+  "request_id": "1",
+  "code": 105,
+  "message": "Firmware update failed"
+}
+```
+
+---
+
+### Unknown
+
+알 수 없는 에러가 발생했을 때 반환
+
+```json
+{
+  "type": "error",
+  "request_id": "1",
+  "code": 9999,
+  "message": "Unknown error occurred"
 }
 ```
 

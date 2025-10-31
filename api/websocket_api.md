@@ -43,7 +43,7 @@ ws://<server-ip>:5555
 
 |요청|응답|
 |-|-|
-|모든 `set_*/reset_*/subscribe_*` action|[`default_response`](response.md#default-response)|
+|`set_*`<br>`reset_*`<br>`subscribe_*`|[`default_response`](response.md#default-response)|
 
 ---
 
@@ -67,6 +67,7 @@ ws://<server-ip>:5555
 |[`get_network_destination_ip`](request.md#get-network-destination-ip)|[`get_network_destination_ip`](response.md#get-network-destination-ip)|
 |[`get_network_info`](request.md#get-network-info)|[`get_network_info`](response.md#get-network-info)|
 |[`get_cloud_point_filter`](request.md#get-cloud-point-filter)|[`get_cloud_point_filter`](response.md#get-cloud-point-filter)|
+|[`get_file_list`](request.md#get-file-list)|[`get_file_list`](response.md#get-file-list)|
 
 ---
 

@@ -15,22 +15,26 @@
 | 타입 | 설명 |
 | - | - |
 | [`DefaultResponse`](#default-response) | 기본 응답(데이터 없음) |
-| [`GetDeviceList`](#get-device-list) | Device ID 목록 |
-| [`GetBasicInfo`](#get-basic-info) | 기본 설정 값 |
-| [`GetVersionInfo`](#get-version-info) | 버전 정보 |
-| [`GetTeachingMode`](#get-teaching-mode) | 티칭 모드 설정 값 |
-| [`GetTeachingArea`](#get-teaching-area) | 티칭 영역 좌표 |
-| [`GetMotorSpeed`](#get-motor-speed) | 모터 스피드 |
-| [`GetWarningArea`](#get-warning-area) | 경고 영역 |
-| [`GetFogFilter`](#get-fog-filter) | 안개 필터 |
-| [`GetRadiusFilter`](#get-radius-filter) | 오감지 필터 |
-| [`GetRadiusFilterMaxDistance`](#get-radius-filter-max-distance) | 오감지 필터 최대 거리 |
-| [`GetRadiusFilterMinDistance`](#get-radius-filter-min-distance) | 오감지 필터 최소 거리 |
-| [`GetWindowContaminationDetectionMode`](#get-window-contamination-detection-mode) | 스크린 오염 감지 설정 값 |
-| [`GetNetworkSourceInfo`](#get-network-source-info) | 네트워크 출발지 정보 |
-| [`GetNetworkDestinationIp`](#get-network-destination-ip) | 네트워크 목적지 IP |
-| [`GetNetworkInfo`](#get-network-info) | 네트워크 정보 |
-| [`GetCloudPointFilter`](#get-cloud-point-filter) | 포인트 필터 설정 조회 |
+| [`GetDeviceList`](#get-device-list-request) | Device ID 목록 |
+| [`GetBasicInfo`](#get-basic-info-request) | 기본 설정 값 |
+| [`GetVersionInfo`](#get-version-info-request) | 버전 정보 |
+| [`GetTeachingMode`](#get-teaching-mode-request) | 티칭 모드 설정 값 |
+| [`GetTeachingArea`](#get-teaching-area-request) | 티칭 영역 좌표 |
+| [`GetMotorSpeed`](#get-motor-speed-request) | 모터 스피드 |
+| [`GetWarningArea`](#get-warning-area-request) | 경고 영역 |
+| [`GetFogFilter`](#get-fog-filter-request) | 안개 필터 |
+| [`GetRadiusFilter`](#get-radius-filter-max-distance-request) | 오감지 필터 |
+| [`GetRadiusFilterMaxDistance`](#get-radius-filter-max-distance-request) | 오감지 필터 최대 거리 |
+| [`GetRadiusFilterMinDistance`](#get-radius-filter-min-distance-request) | 오감지 필터 최소 거리 |
+| [`GetWindowContaminationDetectionMode`](#get-window-contamination-detection-mode-request) | 스크린 오염 감지 설정 값 |
+| [`GetNetworkSourceInfo`](#get-network-source-info-request) | 네트워크 출발지 정보 |
+| [`GetNetworkDestinationIp`](#get-network-destination-ip-request) | 네트워크 목적지 IP |
+| [`GetNetworkInfo`](#get-network-info-request) | 네트워크 정보 |
+| [`GetCloudPointFilter`](#get-cloud-point-filter-request) | 포인트 필터 설정 조회 |
+| [`UploadFile`](#upload-file-request)|업로드된 파일 정보|
+| [`DownloadFile`](#download-file-request)|다운로드된 파일 정보|
+| [`GetFileList`](#get-file-list-request)|업로드 된 파일 목록|
+| [`FirmwareUpdate`](#firmware-update-request)|펌웨어 업데이트 완료|
 
 ---
 
@@ -54,7 +58,7 @@ data 에 요청한 request의 [`action`](request.md#actions--params) 이 설정�
 
 ---
 
-### Get Device List ([`Reqeust`](request.md#get-device-list-response))
+### Get Device List ([`Request`](request.md#get-device-list-response))
 
 현재 연결된 LiDAR 기기들의 정보
 
@@ -79,7 +83,7 @@ data 에 요청한 request의 [`action`](request.md#actions--params) 이 설정�
 
 ---
 
-### Get Basic Info ([`Reqeust`](request.md#get-basic-info-response))
+### Get Basic Info ([`Request`](request.md#get-basic-info-response))
 
 기본 설정 값 정보
 
@@ -162,7 +166,7 @@ data 에 요청한 request의 [`action`](request.md#actions--params) 이 설정�
 
 ---
 
-### Get Version Info ([`Reqeust`](request.md#get-version-info-response))
+### Get Version Info ([`Request`](request.md#get-version-info-response))
 
 LiDAR Firmware, Hardware 버전과 사용처에 대한 정보
 
@@ -184,7 +188,7 @@ LiDAR Firmware, Hardware 버전과 사용처에 대한 정보
 
 ---
 
-### Get Teaching Mode ([`Reqeust`](request.md#get-teaching-mode-response))
+### Get Teaching Mode ([`Request`](request.md#get-teaching-mode-response))
 
 마지막으로 적용되었던 Teaching Mode 의 parameter 값
 
@@ -208,7 +212,7 @@ enable 값은 언제나 true로 들어오며, 실제 teaching 적용 여부는 [
 
 ---
 
-### Get Teaching Area ([`Reqeust`](request.md#get-teaching-area-response))
+### Get Teaching Area ([`Request`](request.md#get-teaching-area-response))
 
 현재 적용되어 있는 Teaching 영역의 좌표
 
@@ -252,7 +256,7 @@ enable 값은 언제나 true로 들어오며, 실제 teaching 적용 여부는 [
 
 ---
 
-### Get Motor Speed ([`Reqeust`](request.md#get-motor-speed-response))
+### Get Motor Speed ([`Request`](request.md#get-motor-speed-response))
 
 LiDAR 의 모터 스피드
 
@@ -273,7 +277,7 @@ LiDAR 의 모터 스피드
 
 ---
 
-### Get Warning Area ([`Reqeust`](request.md#get-warning-area-response))
+### Get Warning Area ([`Request`](request.md#get-warning-area-response))
 
 현재 설정 된 경고 영역의 값
 
@@ -295,7 +299,7 @@ LiDAR 의 모터 스피드
 
 ---
 
-### Get Fog Filter ([`Reqeust`](request.md#get-fog-filter-response))
+### Get Fog Filter ([`Request`](request.md#get-fog-filter-response))
 
 현재 설정 된 Fog Filter 값
 
@@ -316,7 +320,7 @@ LiDAR 의 모터 스피드
 
 ---
 
-### Get Radius Filter ([`Reqeust`](request.md#get-radius-filter-response))
+### Get Radius Filter ([`Request`](request.md#get-radius-filter-response))
 
 설정 된 오감지 필터 값
 
@@ -336,7 +340,7 @@ LiDAR 의 모터 스피드
 
 ---
 
-### Get Radius Filter Max Distance ([`Reqeust`](request.md#get-radius-filter-max-distance-response))
+### Get Radius Filter Max Distance ([`Request`](request.md#get-radius-filter-max-distance-response))
 
 현재 적용된 오감지 필터 최대 거리
 
@@ -356,7 +360,7 @@ LiDAR 의 모터 스피드
 
 ---
 
-### Get Radius Filter Min Distance ([`Reqeust`](request.md#get-radius-filter-min-distance-response))
+### Get Radius Filter Min Distance ([`Request`](request.md#get-radius-filter-min-distance-response))
 
 현재 적용된 오감지 필터 최소 거리
 
@@ -376,7 +380,7 @@ LiDAR 의 모터 스피드
 
 ---
 
-### Get Window Contamination Detection Mode ([`Reqeust`](request.md#get-window-contamination-detection-mode-response))
+### Get Window Contamination Detection Mode ([`Request`](request.md#get-window-contamination-detection-mode-response))
 
 현재 적용된 화면 오염 감지모드
 
@@ -396,7 +400,7 @@ LiDAR 의 모터 스피드
 
 ---
 
-### Get Network Source Info ([`Reqeust`](request.md#get-network-source-info-response))
+### Get Network Source Info ([`Request`](request.md#get-network-source-info-response))
 
 LiDAR 의 출발지 네트워크 정보
 
@@ -420,7 +424,7 @@ LiDAR 의 출발지 네트워크 정보
 
 ---
 
-### Get Network Destination Ip ([`Reqeust`](request.md#get-network-destination-ip-response))
+### Get Network Destination Ip ([`Request`](request.md#get-network-destination-ip-response))
 
 LiDAR 의 목적지 네트워크 정보
 
@@ -440,7 +444,7 @@ LiDAR 의 목적지 네트워크 정보
 
 ---
 
-### Get Network Info ([`Reqeust`](request.md#get-network-info-response))
+### Get Network Info ([`Request`](request.md#get-network-info-response))
 
 LiDAR 의 네트워크 정보
 
@@ -472,7 +476,7 @@ LiDAR 의 네트워크 정보
 
 ---
 
-### Get Cloud Point Filter ([`Reqeust`](request.md#get-cloud-point-filter))
+### Get Cloud Point Filter ([`Request`](request.md#get-cloud-point-filter))
 
 LiDAR 포인트 필터 설정 조회
 
@@ -495,3 +499,100 @@ LiDAR 포인트 필터 설정 조회
   }
 }
 ```
+
+---
+
+### Upload File ([`Request`](request.md#upload-file-response))
+
+파일 업로드 완료 응답
+
+```json
+{
+  "type": "response",
+  "request_id": "201",
+  "status": "success",
+  "data": {
+    "action": "upload_file",
+    "params": {
+      "filename": "firmware.bin",
+      "file_size": 1024000,
+      "content": "base64_encoded_file_content...",
+      "sha256_checksum": "a1b2c3d4e5f6..."
+    }
+  }
+}
+```
+
+---
+
+### Download File ([`Request`](request.md#download-file-response))
+
+파일 다운로드 응답
+
+```json
+{
+  "type": "response",
+  "request_id": "201",
+  "status": "success",
+  "data": {
+    "action": "download_file",
+    "params": {
+      "filename": "firmware.bin",
+      "file_size": 1024000,
+      "content": "base64_encoded_file_content...",
+      "sha256_checksum": "a1b2c3d4e5f6..."
+    }
+  }
+}
+```
+
+---
+
+### Get File List ([`Request`](request.md#get-file-list-response))
+
+파일 목록 조회 응답
+
+```json
+{
+  "type": "response",
+  "request_id": "201",
+  "status": "success",
+  "data": {
+    "action": "get_file_list",
+    "params": [
+      {
+        "filename": "firmware.bin",
+        "file_size": 1024000,
+        "content": "",
+        "sha256_checksum": "a1b2c3d4e5f6..."
+      },
+      {
+        "filename": "config.json",
+        "file_size": 512,
+        "content": "",
+        "sha256_checksum": "b2c3d4e5f6a1..."
+      }
+    ]
+  }
+}
+```
+
+---
+
+### Firmware Update ([`Request`](request.md#firmware-update-response))
+
+펌웨어 업데이트 완료 응답
+
+```json
+{
+  "type": "response",
+  "request_id": "201",
+  "status": "success",
+  "data": {
+    "action": "firmware_update",
+    "params": null
+  }
+}
+```
+
+---

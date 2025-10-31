@@ -35,7 +35,7 @@
 
 |Actions|Params|설명|
 |-|-|-|
-|[`get_device_list`](#get-device-list-responseist)|`port`|`port`로 연결 된 LiDAR 목록
+|[`get_device_list`](#get-device-list-response)|`port`|`port`로 연결 된 LiDAR 목록
 |[`subscribe_devices`](#subscribe-devices-response-notify)|`List<device_id>`|스캔 좌표 데이터 수신을 위한 설정
 |[`reset_config`](#reset-config-response)|`null`|설정 초기화 (네트워크, ID등 초기화되지 않는 정보도 있음)
 |[`get_basic_info`](#get-basic-info-response)|`null`|기본 설정 값 조회
@@ -75,11 +75,15 @@
 |[`get_network_destination_ip`](#get-network-destination-ip-response)|`null`|LiDAR 목적지 IP 조회
 |[`set_network_info`](#set-network-info-response)|`src`, `dst`, `mode`|LiDAR 네트워크 정보 설정
 |[`get_network_info`](#get-network-info-response)|`null`|LiDAR 네트워크 정보 조회
-|`set_cloud_point_filter`|`filter_type`, `history_count`, `min_distance`, `max_distance`, `q?`, `r?`, `threshold?`|포인트 필터 설정|
-|`get_cloud_point_filter`|`null`|포인트 필터 조회|
+|[`set_cloud_point_filter`](#set-cloud-point-filter-response)|`filter_type`, `history_count`, `min_distance`, `max_distance`, `q?`, `r?`, `threshold?`|포인트 필터 설정|
+|[`get_cloud_point_filter`](#get-cloud-point-filter-response)|`null`|포인트 필터 조회|
+|[`upload_file`](#upload-file-response)|`filename`, `file_size`, `content`, `sha256_checksum?`|파일 업로드|
+|[`download_file`](#download-file-response)|`filename`|파일 다운로드|
+|[`get_file_list`](#get-file-list-response)|`null`|업로드 된 파일 목록 조회|
+|[`firmware_update`](#firmware-update-response)|`file_sha256`, `local_port?`, `block_size?`, `max_retries?`, `ack_timeout_ms?`|펌웨어 업데이트|
 ---
 
-### Get Device List ([`Response`](response.md#get-device-list-reqeust))
+### Get Device List ([`Response`](response.md#get-device-list-request))
 
 `port`로 소켓을 열고 들어오는 LiDAR UDP Packet 확인하여 그 목록을 반환
 
@@ -165,7 +169,7 @@ LiDAR 의 모든 설정을 초기화. 단, Network Info, ID, Motor Speed 값은 
 
 ---
 
-### Get Basic Info ([`Response`](response.md#get-basic-info-reqeust))
+### Get Basic Info ([`Response`](response.md#get-basic-info-request))
 
 LiDAR 의 기본 설정값을 조회. 대부분의 설정 값이 조회 되나, 안개 필터, 오감지 필터 등은 별도의 조회 명령 필요
 
@@ -357,7 +361,7 @@ LiDAR 수평 시야각 설정
 
 ---
 
-### Get Version Info ([`Response`](response.md#get-version-info-reqeust))
+### Get Version Info ([`Response`](response.md#get-version-info-request))
 
 LiDAR Firmware, Hardware 버전과 사용처에 대한 정보를 조회
 
@@ -573,7 +577,7 @@ margin: 자동 영역과 스캔 좌표 사이의 간격
 
 ---
 
-### Get Teaching Mode ([`Response`](response.md#get-teaching-mode-reqeust))
+### Get Teaching Mode ([`Response`](response.md#get-teaching-mode-request))
 
 마지막으로 적용되었던 Teaching Mode 의 parameter 값 조회
 
@@ -597,7 +601,7 @@ margin: 자동 영역과 스캔 좌표 사이의 간격
 
 ---
 
-### Get Teaching Area ([`Response`](response.md#get-teaching-area-reqeust))
+### Get Teaching Area ([`Response`](response.md#get-teaching-area-request))
 
 현재 적용되어 있는 Teaching 영역의 좌표 조회
 
@@ -705,7 +709,7 @@ LiDAR의 모터 스피드 설정, R270 만 지원
 
 ---
 
-### Get Motor Speed ([`Response`](response.md#get-motor-speed-reqeust))
+### Get Motor Speed ([`Response`](response.md#get-motor-speed-request))
 
 LiDAR 의 모터 스피드 조회, R270 만 지원
 
@@ -764,7 +768,7 @@ LiDAR 의 모터 스피드 조회, R270 만 지원
 
 ---
 
-### Get Warning Area ([`Response`](response.md#get-warning-area-reqeust))
+### Get Warning Area ([`Response`](response.md#get-warning-area-request))
 
 현재 설정 된 경고 영역의 값 조회, R270 만 지원
 
@@ -817,7 +821,7 @@ LiDAR 의 모터 스피드 조회, R270 만 지원
 
 ---
 
-### Get Fog Filter ([`Response`](response.md#get-fog-filter-reqeust))
+### Get Fog Filter ([`Response`](response.md#get-fog-filter-request))
 
 현재 설정 된 Fog Filter 값 조회, R4 만 지원
 
@@ -867,7 +871,7 @@ LiDAR 의 모터 스피드 조회, R270 만 지원
 
 ---
 
-### Get Radius Filter ([`Response`](response.md#get-radius-filter-reqeust))
+### Get Radius Filter ([`Response`](response.md#get-radius-filter-request))
 
 설정 된 오감지 필터 값 조회, R4 만 지원
 
@@ -915,7 +919,7 @@ LiDAR 의 모터 스피드 조회, R270 만 지원
 
 ---
 
-### Get Radius Filter Max Distance ([`Response`](response.md#get-radius-filter-max-distance-reqeust))
+### Get Radius Filter Max Distance ([`Response`](response.md#get-radius-filter-max-distance-request))
 
 현재 적용된 오감지 필터 최대 거리 조회, R4 만 지원
 
@@ -965,7 +969,7 @@ LiDAR 의 모터 스피드 조회, R270 만 지원
 
 ---
 
-### Get Radius Filter Min Distance ([`Response`](response.md#get-radius-filter-min-distance-reqeust))
+### Get Radius Filter Min Distance ([`Response`](response.md#get-radius-filter-min-distance-request))
 
 현재 적용된 오감지 필터 최소 거리 조회, R4 만 지원
 
@@ -1017,7 +1021,7 @@ LiDAR 화면 오염 감지 모드 설정, R4 만 지원
 
 ---
 
-### Get Window Contamination Detection Mode ([`Response`](response.md#get-window-contamination-detection-mode-reqeust))
+### Get Window Contamination Detection Mode ([`Response`](response.md#get-window-contamination-detection-mode-request))
 
 현재 적용된 화면 오염 감지모드 조회, R4 만 지원
 
@@ -1071,7 +1075,7 @@ LiDAR 의 출발지 네트워크 정보 설정
 
 ---
 
-### Get Network Source Info ([`Response`](response.md#get-network-source-info-reqeust))
+### Get Network Source Info ([`Response`](response.md#get-network-source-info-request))
 
 LiDAR 의 출발지 네트워크 정보 조회
 
@@ -1152,7 +1156,7 @@ LiDAR 의 네트워크 목적지 IP 설정
 
 ---
 
-### Get Network Destination IP ([`Response`](response.md#get-network-destination-ip-reqeust))
+### Get Network Destination IP ([`Response`](response.md#get-network-destination-ip-request))
 
 LiDAR 의 네트워크 정보 조회
 
@@ -1222,7 +1226,7 @@ LiDAR 의 네트워크 정보 설정
 
 ---
 
-### Get Network Info ([`Response`](response.md#get-network-info-reqeust))
+### Get Network Info ([`Response`](response.md#get-network-info-request))
 
 LiDAR 의 네트워크 정보 조회
 
@@ -1273,7 +1277,7 @@ LiDAR 포인트 필터 설정
 
 ---
 
-### Get Cloud Point Filter ([`Response`](response.md#get-cloud-point-filter))
+### Get Cloud Point Filter ([`Response`](response.md#get-cloud-point-filter-request))
 
 LiDAR 포인트 필터 설정 조회
 
@@ -1289,5 +1293,102 @@ LiDAR 포인트 필터 설정 조회
   }
 }
 ```
+
+---
+
+### Upload File ([`Response`](response.md#upload-file-request))
+
+파일을 서버에 업로드
+
+```json
+{
+  "type": "request",
+  "request_id": "201",
+  "use_multicast_addr": null,
+  "device_id": { "ip": 3232267208, "port": 5000, "model": 6, "id": 208 },
+  "data": {
+    "action": "upload_file",
+    "params": {
+      "filename": "firmware.bin",
+      "file_size": 1024000,
+      "content": "base64_encoded_file_content...",
+      "sha256_checksum": "a1b2c3d4e5f6..."
+    }
+  }
+}
+```
+
+---
+
+### Download File ([`Response`](response.md#download-file-request))
+
+서버에 업로드된 파일 다운로드
+
+```json
+{
+  "type": "request",
+  "request_id": "201",
+  "use_multicast_addr": null,
+  "device_id": { "ip": 3232267208, "port": 5000, "model": 6, "id": 208 },
+  "data": {
+    "action": "download_file",
+    "params": {
+      "filename": "firmware.bin"
+    }
+  }
+}
+```
+
+---
+
+### Get File List ([`Response`](response.md#get-file-list-request))
+
+서버에 업로드된 파일 목록 조회
+
+```json
+{
+  "type": "request",
+  "request_id": "201",
+  "use_multicast_addr": null,
+  "device_id": { "ip": 3232267208, "port": 5000, "model": 6, "id": 208 },
+  "data": {
+    "action": "get_file_list",
+    "params": null
+  }
+}
+```
+
+---
+
+### Firmware Update ([`Response`](response.md#firmware-update-request))
+
+TFTP를 사용하여 LiDAR 장치에 펌웨어 업데이트
+
+```json
+{
+  "type": "request",
+  "request_id": "201",
+  "use_multicast_addr": null,
+  "device_id": { "ip": 3232267208, "port": 5000, "model": 6, "id": 208 },
+  "data": {
+    "action": "firmware_update",
+    "params": {
+      "file_sha256": "a1b2c3d4e5f6...",
+      "local_port": 50069,
+      "block_size": 512,
+      "max_retries": 10,
+      "ack_timeout_ms": 1000
+    }
+  }
+}
+```
+
+기본값:
+- `local_port`: 50069
+- `block_size`: 512
+- `max_retries`: 10
+- `ack_timeout_ms`: 1000
+
+> **중요:** 반드시 SDK PC IP를 `192.168.123.100`, LiDAR IP를 `192.168.123.200` 으로 설정 후 진행해야함
 
 ---
